@@ -14,12 +14,13 @@ public class loadingpage extends JFrame{
         setUndecorated(true);
         setLocation(200, 200);
         pnl=new JPanel();
-        pnl.setLayout(new GridLayout(4, 1));
+        pnl.setLayout(new GridLayout(4, 1, 5, 5));
         pnl1=new JPanel();
         pnl2=new JPanel();
         pnl3=new JPanel();
         pnl4=new JPanel();
         lblhead=new JLabel("AAPKA APNA SUPERMARKET");
+        lblhead.setVerticalAlignment(1);
         lblhead.setFont(new Font("SansSerif", Font.PLAIN, 30));
         lblhead.setForeground(Color.white);
         lblload=new JLabel("LOADING... ");
@@ -53,7 +54,7 @@ public class loadingpage extends JFrame{
             progbar.setValue(i);
             lblpercent.setText(i+"%");
             try{
-            Thread.sleep(50);
+            Thread.sleep(100);
             }catch(InterruptedException ie){
 
             }
