@@ -141,7 +141,7 @@ public class LoginFrame extends JFrame implements ItemListener{
                 System.out.println(e.getMessage());
             }
         }else if(str.equals("  Seller  ")){
-            btnsignup.addActionListener(new SignUpPage());
+            // btnsignup.addActionListener(new SignUpPage());
             new SellerPage();
             dispose();
         }
