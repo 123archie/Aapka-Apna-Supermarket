@@ -12,8 +12,8 @@ public class LoginFrame extends JFrame implements ItemListener{
     Container con;
     JPanel pnl1, pnl2,MainPnl, pnlHead, pnlroletype, pnlUID, pnlPass, pnlBtn, pnlerr;
     JButton btnlogin, btnclear, btnsignup;
-    int i;
-    String str;
+    int i, c=0;
+    String str="ADMIN";
     String []arr=new String[2];
     LoginFrame(){
         con=getContentPane();
@@ -109,8 +109,7 @@ public class LoginFrame extends JFrame implements ItemListener{
     }
     class btnloginclick implements ActionListener{
         public void actionPerformed(ActionEvent ae){
-            String user="", pass="";
-            if(str.equals("  ADMIN  ")){
+            String user="", pass="", typeUser="";
                 Connection conn=null;
                 Statement stmt=null;
                 try{
@@ -118,39 +117,51 @@ public class LoginFrame extends JFrame implements ItemListener{
 			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket","root","");  
 			stmt=conn.createStatement();  
 			  ResultSet rs;
-	         		 rs = stmt.executeQuery("Select * from admin_login");
+	         		 rs = stmt.executeQuery("Select * from admin_login limit 1");
                      while(rs.next()){
 	         		    user=rs.getString("UID");
-                        pass=rs.getString("Password");}
-	        		rs.close();
-	         		stmt.close();
-	         		conn.close();
-                    System.out.println(pass);
+                        pass=rs.getString("Password");
+                        typeUser=rs.getString("Type_of_User");
                     if(txtUID.getText().equals(user) && String.valueOf(txtPass.getPassword()).equals(pass)){
                         pnlerr.setVisible(false);
+                        if(str.equals("ADMIN") && typeUser.equals("ADMIN")){
+                            new AdminDashboard();
+                            dispose();
+                        }else if(str.equals("Seller") && typeUser.equals("Seller")){
+                            new SellerPage();
+                            dispose();
+                        }else{
+                            c++;
+                        }
                         System.out.println("Login Successful");
-                        new AdminDashboard();
-                        dispose();
-                    }else{
+                    }
+                else{
+                    c++;
+                }}
+	        		
+                    System.out.print(c);
+                    System.out.print(rs.getRow());
+                    if(c-1==rs.getRow()){
                         pnlerr.setVisible(true);
                         txtUID.setText(" ");
                         txtPass.setText("");
                     }
+                    rs.close();
+	         		stmt.close();
+	         		conn.close();
+                    System.out.println(pass);
             }
             catch(Exception e){
                 System.out.println(e.getMessage());
             }
-        }else if(str.equals("  Seller  ")){
-            // btnsignup.addActionListener(new SignUpPage());
-            new SellerPage();
-            dispose();
         }
     }
-}
+
 class btnClear implements ActionListener{
     public void actionPerformed(ActionEvent ae){
         pnlerr.setVisible(false);
         txtUID.setText(" ");
         txtPass.setText("");
+
     }
 }}

@@ -5,18 +5,22 @@ import javax.swing.table.JTableHeader;
 import java.sql.*;
 import java.sql.DriverManager.*;
 import java.util.StringTokenizer;
+import java.util.Vector;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.table.*;
-public class ProductCategory extends JFrame{
+public class ProductCategory extends JFrame implements ActionListener{
     JPanel pnl1, pnl2, pnlHead, pnlcatIDName, pnldes, pnlerr, pnlbtn, pnlcatID, pnlcatName;
     JLabel lblhead, lblcatID, lblcatName, lbldes, lblerr;
     JTextField txtcatID, txtcatName;
     JTextArea txtdes;
     JButton btnadd, btnclear, btnedit, btndelete, btnupdate;
     JTable lstcat;
+    javax.swing.table.JTableHeader jth;
     String catid, catname, catdes;
-    ProductCategory(){
+    Vector heading, col, row;
+    ResultSet r;
+    public void actionPerformed(ActionEvent ae){
         // setUndecorated(true);
         setSize(800, 600);
         setLayout(new GridLayout(5, 1, 40, 40));
@@ -29,6 +33,14 @@ public class ProductCategory extends JFrame{
         pnlcatID=new JPanel();
         pnlcatName=new JPanel();
         pnlerr=new JPanel();
+        heading=new Vector<>();
+        row=new Vector<>();
+        heading.add("Category ID");
+        heading.add("Category Name");
+        heading.add("Description");
+        heading.add("");
+        heading.add("");
+        heading.add("");
         lblhead=new JLabel("MANAGE CATEGORIES");
         lblhead.setFont(new Font("SansSerif", Font.PLAIN, 30));
         lblhead.setForeground(new Color(249, 76, 16));
@@ -57,6 +69,7 @@ public class ProductCategory extends JFrame{
         btnclear.setBackground(new Color(249, 76, 16));
         btnclear.setForeground(Color.white);
         btnclear.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        btnclear.addActionListener(new clearDetails());
         btnedit=new JButton("EDIT");
         btnedit.setBackground(new Color(249, 76, 16));
         btnedit.setForeground(Color.white);
@@ -69,10 +82,37 @@ public class ProductCategory extends JFrame{
         btnupdate.setBackground(new Color(249, 76, 16));
         btnupdate.setForeground(Color.white);
         btnupdate.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        lstcat=new JTable(0, 6);
-        DefaultTableModel tbmdl=(DefaultTableModel)lstcat.getModel();
-        String[] a={"Category ID", "Category Name", "Category Des."};
-        tbmdl.addRow(a);
+        Connection con=null;
+                    Statement stmt=null;
+                    ResultSet rs=null;
+                    try{
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", ""); 
+                        stmt=con.createStatement();
+                        rs=stmt.executeQuery("Select * from manage_categories");
+                        while(rs.next()){
+                            col=new Vector<>();
+                            col.add(rs.getString("Category_ID"));
+                            col.add(rs.getString("Category_Name"));
+                            col.add(rs.getString("Description"));
+                            btnedit.setVisible(true);
+                            btndelete.setVisible(true);
+                            btnupdate.setVisible(true);
+                            col.add(btnedit);
+                            col.add(btndelete);
+                            col.add(btnupdate);
+                            row.add(col);
+                        }
+                            lstcat=new JTable(row, heading);
+                            jth=lstcat.getTableHeader(); 
+                        rs.close();
+                        stmt.close();
+                        con.close();
+                            }catch(Exception ie){
+                        System.out.println(ie.getMessage());
+                    }
+        lstcat=new JTable(row, heading);
+        jth=lstcat.getTableHeader();
         pnlHead.add(lblhead);
         pnlcatID.add(lblcatID);
         pnlcatID.add(txtcatID);
@@ -88,7 +128,7 @@ public class ProductCategory extends JFrame{
         pnlbtn.add(btnadd);
         pnlbtn.add(btnclear);
         pnl2.setBorder (BorderFactory.createTitledBorder(null, "Product Categories",TitledBorder.CENTER, TitledBorder.TOP, new Font("SansSerif", Font.PLAIN, 20), new Color(249, 76, 16)));
-        pnl2.add(lstcat);
+        pnl2.add(new JScrollPane(lstcat));
         add(pnlHead);
         add(pnlcatIDName);
         add(pnldes);
@@ -104,35 +144,43 @@ public class ProductCategory extends JFrame{
                     txtcatName.setText("");
                     txtdes.setText("");
                 }else{
-                    Connection con=null;
-                    Statement stmt=null;
-                    try{
-                        Class.forName("com.mysql.cj.jdbc.Driver");
+                       Connection con=null;
+                       Statement stmt=null;
+                       Vector row=new Vector<>();
+                       try{
+                       Class.forName("com.mysql.cj.jdbc.Driver");
                         con=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", ""); 
-                        stmt=con.createStatement();
-                        System.out.println(txtdes.getText());
-                        stmt.executeUpdate("Insert into manage_categories values('"+txtcatID.getText()+"', '"+txtcatName.getText()+"', '"+txtdes.getText()+"')");
-                        ResultSet rs=stmt.executeQuery("Select * from manage_categories");
-                        DefaultTableModel tbmdl=(DefaultTableModel)lstcat.getModel();
-                        while(rs.next()){
-                            catid=rs.getString("Category_ID");
-                            catname=rs.getString("Category_Name");
-                            catdes=rs.getString("Description");
-                            String[] data={catid, catname, catdes};
-                            JButton[] btn={btnedit, btndelete, btnupdate};
-                            tbmdl.addRow(data);
-                        }
-                        rs.close();
+                        stmt=con.createStatement(); 
+                        stmt.executeUpdate("Insert into manage_categories values('"+txtcatID.getText()+"','"+txtcatName.getText()+"','"+txtdes.getText()+"')"); 
+                        // col=new Vector<>();
+                        //     col.add(txtcatID.getText());
+                        //     col.add(txtcatName.getText());
+                        //     col.add(txtdes.getText());
+                        //     btnedit.setVisible(true);
+                        //     btndelete.setVisible(true);
+                        //     btnupdate.setVisible(true);
+                        //     col.add(btnedit);
+                        //     col.add(btndelete);
+                        //     col.add(btnupdate);
+                        //     row.add(col);
+                        //     lstcat=new JTable(row, heading);
+
                         stmt.close();
                         con.close();
-
-                    }catch(Exception ie){
+                            }catch(Exception ie){
                         System.out.println(ie.getMessage());
-                    }
-                }
+                    } 
+                    
+            }}}
+        class clearDetails implements ActionListener{
+            public void actionPerformed(ActionEvent e){
+                txtcatID.setText("");
+                txtcatName.setText("");
+                txtdes.setText("");
             }
         }
     public static void main(String[] args){
         new ProductCategory();
     }
 }
+        
