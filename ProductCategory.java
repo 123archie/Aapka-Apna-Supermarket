@@ -125,6 +125,8 @@ public class ProductCategory extends JFrame implements ActionListener{
         pnldes.add(lbldes);
         pnldes.add(txtdes);
         pnlerr=new JPanel();
+        pnlerr.add(lblerr);
+        pnlerr.setVisible(false);
         pnlbtn.add(btnadd);
         pnlbtn.add(btnclear);
         pnl2.setBorder (BorderFactory.createTitledBorder(null, "Product Categories",TitledBorder.CENTER, TitledBorder.TOP, new Font("SansSerif", Font.PLAIN, 20), new Color(249, 76, 16)));
@@ -132,6 +134,7 @@ public class ProductCategory extends JFrame implements ActionListener{
         add(pnlHead);
         add(pnlcatIDName);
         add(pnldes);
+        add(pnlerr);
         add(pnlbtn);
         add(pnl2);
         show();
@@ -144,6 +147,7 @@ public class ProductCategory extends JFrame implements ActionListener{
                     txtcatName.setText("");
                     txtdes.setText("");
                 }else{
+                       pnlerr.setVisible(false);
                        Connection con=null;
                        Statement stmt=null;
                        Vector row=new Vector<>();
