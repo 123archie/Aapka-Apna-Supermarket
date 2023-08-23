@@ -19,6 +19,7 @@ public class ManageProduct extends JFrame implements ActionListener{
     JTable jtable;
     ArrayList<String> arr;
     Vector row, heading, col;
+    JTableHeader jth;
     public void actionPerformed(ActionEvent aae){
         setSize(800, 600);
         setLayout(new GridLayout(6, 1));
@@ -119,24 +120,31 @@ public class ManageProduct extends JFrame implements ActionListener{
             System.out.println(ee);
         }
         pnl2.setBorder(BorderFactory.createTitledBorder(null, "Products", TitledBorder.CENTER, TitledBorder.TOP, new Font("SansSerif", Font.PLAIN, 20), new Color(249, 76, 16)));
-        // Connection conn=null;
-        // Statement stm=null;
-        // try{
-        //     Class.forName("com.mysql.cj.jdbc.Driver");
-        //     con=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", ""); 
-        //     stmt=con.createStatement();
-        //     rs=stmt.executeQuery("Select * from manage_products");
-        //     while(rs.next()){
-        //        col=new Vector<>();
-        //        col.add(rs.)
-        //     }
-        //     rs.close();
-        //     stmt.close();
-        //     con.close();
-        // }catch(Exception ee){
-        //     System.out.println(ee);
-        // }
-        // pnl2.add(jtable);
+        Connection conn=null;
+        Statement stm=null;
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", ""); 
+            stmt=con.createStatement();
+            rs=stmt.executeQuery("Select * from manage_products");
+            while(rs.next()){
+               col=new Vector<>();
+               col.add(rs.getString("Product Category"));
+               col.add(rs.getString("Product ID"));
+               col.add(rs.getString("Product Name"));
+               col.add(rs.getString("Product Quantity"));
+               col.add(rs.getString("Product Price"));
+               row.add(col);
+            }
+            rs.close();
+            stmt.close();
+            con.close();
+        }catch(Exception ee){
+            System.out.println(ee);
+        }
+        jtable=new JTable(row, heading);
+        jth=jtable.getTableHeader();
+        pnl2.add(jtable);
         show();
     }
     class cleardetails implements ActionListener{
@@ -150,11 +158,29 @@ public class ManageProduct extends JFrame implements ActionListener{
     class addproduct implements ActionListener{
         public void actionPerformed(ActionEvent ae){
             if(txtprodId.getText()==null || txtprodName.getText()==null || txtQuantity.getText()==null || txtPrice.getText()==null){
-
+                txtprodId.setText("");
+                txtprodName.setText("");
+                txtQuantity.setText("");
+            }else{
+                Connection con=null;
+                       Statement stmt=null;
+                       try{
+                       Class.forName("com.mysql.cj.jdbc.Driver");
+                        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", ""); 
+                        stmt=con.createStatement(); 
+                        stmt.executeUpdate("Insert into manage_products values('"+combocategory.getSelectedItem()+"', '"+txtprodId.getText()+"','"+txtprodName.getText()+"','"+txtQuantity.getText()+"', '"+txtPrice+"')"); 
+                        stmt.close();
+                        con.close();
+                        // showInTableProducts();
+                            }catch(Exception ie){
+                        System.out.println(ie.getMessage());
+                    } 
+                    
+            }
             }
         }
-    }
+    
     public static void main(String[] args){
         new ManageProduct();
-    }
-}
+    }}
+// }

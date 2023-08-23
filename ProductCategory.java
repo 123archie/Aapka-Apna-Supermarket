@@ -20,8 +20,10 @@ public class ProductCategory extends JFrame implements ActionListener{
     String catid, catname, catdes;
     Vector heading, col, row;
     ResultSet r;
+    Container cont;
     public void actionPerformed(ActionEvent ae){
         // setUndecorated(true);
+        cont=getContentPane();
         setSize(800, 600);
         setLayout(new GridLayout(5, 1, 40, 40));
         pnl1=new JPanel();
@@ -51,7 +53,8 @@ public class ProductCategory extends JFrame implements ActionListener{
         lblcatName.setFont(new Font("SansSerif", Font.PLAIN, 20));
         lblcatName.setForeground(new Color(249, 76, 16));
         lbldes=new JLabel("Description:  ");
-        lblerr=new JLabel("Fill all the details");
+        // lblerr=new JLabel("Fill all the details");
+        // lblerr.setVisible(false);
         lbldes.setFont(new Font("SansSerif", Font.PLAIN, 20));
         lbldes.setForeground(new Color(249, 76, 16));
         txtcatID=new JTextField(10);
@@ -120,13 +123,10 @@ public class ProductCategory extends JFrame implements ActionListener{
         pnlcatName.add(txtcatName);
         pnlcatIDName.add(pnlcatID);
         pnlcatIDName.add(pnlcatName);
-        pnlerr.add(lblerr);
-        pnlerr.setVisible(false);
+        // // pnlerr.add(lblerr);
+        // pnlerr.setVisible(false);
         pnldes.add(lbldes);
         pnldes.add(txtdes);
-        pnlerr=new JPanel();
-        pnlerr.add(lblerr);
-        pnlerr.setVisible(false);
         pnlbtn.add(btnadd);
         pnlbtn.add(btnclear);
         pnl2.setBorder (BorderFactory.createTitledBorder(null, "Product Categories",TitledBorder.CENTER, TitledBorder.TOP, new Font("SansSerif", Font.PLAIN, 20), new Color(249, 76, 16)));
@@ -134,43 +134,30 @@ public class ProductCategory extends JFrame implements ActionListener{
         add(pnlHead);
         add(pnlcatIDName);
         add(pnldes);
-        add(pnlerr);
+        // add(lblerr);
         add(pnlbtn);
         add(pnl2);
-        show();
+        setVisible(true);
         } 
         public class addClick implements ActionListener{
             public void actionPerformed(ActionEvent e){
                 if(txtcatID.getText().length()==0 || txtcatName.getText().length()==0 || txtdes.getText().length()==0){
-                    pnlerr.setVisible(true);
+                    // lblerr.setVisible(true);
                     txtcatID.setText("");
                     txtcatName.setText("");
                     txtdes.setText("");
                 }else{
-                       pnlerr.setVisible(false);
+                    //    lblerr.setVisible(false);
                        Connection con=null;
                        Statement stmt=null;
-                       Vector row=new Vector<>();
                        try{
                        Class.forName("com.mysql.cj.jdbc.Driver");
                         con=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", ""); 
                         stmt=con.createStatement(); 
                         stmt.executeUpdate("Insert into manage_categories values('"+txtcatID.getText()+"','"+txtcatName.getText()+"','"+txtdes.getText()+"')"); 
-                        // col=new Vector<>();
-                        //     col.add(txtcatID.getText());
-                        //     col.add(txtcatName.getText());
-                        //     col.add(txtdes.getText());
-                        //     btnedit.setVisible(true);
-                        //     btndelete.setVisible(true);
-                        //     btnupdate.setVisible(true);
-                        //     col.add(btnedit);
-                        //     col.add(btndelete);
-                        //     col.add(btnupdate);
-                        //     row.add(col);
-                        //     lstcat=new JTable(row, heading);
-
                         stmt.close();
                         con.close();
+                        showInTable();
                             }catch(Exception ie){
                         System.out.println(ie.getMessage());
                     } 
@@ -182,6 +169,41 @@ public class ProductCategory extends JFrame implements ActionListener{
                 txtcatName.setText("");
                 txtdes.setText("");
             }
+        }
+        public void showInTable(){
+            DefaultTableModel tableModel=(DefaultTableModel)lstcat.getModel();
+            tableModel.setRowCount(0);
+            Connection con=null;
+            Statement stmt=null;
+            ResultSet rs=null;
+                    try{
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        con=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", ""); 
+                        stmt=con.createStatement();
+                        rs=stmt.executeQuery("Select * from manage_categories");
+                        while(rs.next()){
+                            col=new Vector<>();
+                            col.add(rs.getString("Category_ID"));
+                            col.add(rs.getString("Category_Name"));
+                            col.add(rs.getString("Description"));
+                            btnedit.setVisible(true);
+                            btndelete.setVisible(true);
+                            btnupdate.setVisible(true);
+                            col.add(btnedit);
+                            col.add(btndelete);
+                            col.add(btnupdate);
+                            row.add(col);
+                        }
+                            lstcat=new JTable(row, heading);
+                            jth=lstcat.getTableHeader(); 
+                        rs.close();
+                        stmt.close();
+                        con.close();
+                            }catch(Exception ie){
+                        System.out.println(ie.getMessage());
+                    }
+
+            
         }
     public static void main(String[] args){
         new ProductCategory();
