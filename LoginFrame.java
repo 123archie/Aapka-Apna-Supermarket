@@ -67,6 +67,7 @@ public class LoginFrame extends JFrame implements ItemListener{
         btnsignup.setForeground(Color.white);
         btnsignup.setFont(new Font("SansSerif", Font.PLAIN, 20));
         btnsignup.setVisible(false);
+        btnsignup.addActionListener(new SignUpPageHelper());
         btnlogin.addActionListener(new btnloginclick());
         btnclear.addActionListener(new btnClear());
         pnlHead.add(lblLoginhead);
@@ -163,5 +164,11 @@ class btnClear implements ActionListener{
         txtUID.setText(" ");
         txtPass.setText("");
 
+    }
+}
+class SignUpPageHelper implements ActionListener{
+    public void actionPerformed(ActionEvent ee){
+        new SignUpPage();
+        dispose();
     }
 }}

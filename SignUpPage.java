@@ -5,11 +5,93 @@ import java.awt.event.*;
 import java.sql.*;
 import java.sql.DriverManager.*;
 public class SignUpPage extends JFrame{
-    JLabel lblhead, lblname, lblemail, lblpass, lblconpass, lblphone;
-
+    Container container;
+    JLabel lblhead, lblname, lblUID, lblpass, lblconpass, lblphone, lblerr;
+    JTextField txtName, txtUID, txtphone;
+    JPasswordField txtpass, txtconpass;
+     JButton btnsubmit, btnclear;
+     JPanel MainPnl, pnl1, pnl2, pnlhead, pnlName, pnlUID, pnlPass, pnlconPass, pnlPhone, pnlerr, pnlbtn;
     SignUpPage(){
+        container=getContentPane();
+        setUndecorated(true);
+        setSize(800, 600);
+        MainPnl=new JPanel();
+        MainPnl.setLayout(new GridLayout(1, 2));
+        pnl1=new JPanel();
+        pnl1.setSize(1000, MainPnl.HEIGHT);
+        pnl2=new JPanel();
+        pnl1.setBackground(new Color(249, 76, 16));
+        pnl2.setLayout(new GridLayout(7, 1, 10, 10));
+        lblhead=new JLabel("Fill Your Details");
+        lblhead.setFont(new Font("SansSerif", Font.PLAIN, 30));
+        lblhead.setForeground(new Color(249, 76, 16));
+        pnlhead=new JPanel();
+        pnlhead.add(lblhead);
+        lblname=new JLabel("Name       ");
+        lblname.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        lblname.setForeground(new Color(249, 76, 16));
+        txtName=new JTextField(10);
+        txtName.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        pnlName=new JPanel();
+        pnlName.add(lblname);
+        pnlName.add(txtName);
+        lblUID=new JLabel("User ID       ");
+        lblUID.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        lblUID.setForeground(new Color(249, 76, 16));
+        txtUID=new JTextField(10);
+        txtUID.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        pnlUID=new JPanel();
+        pnlUID.add(lblUID);
+        pnlUID.add(txtUID);
+        lblpass=new JLabel("Password       ");
+        lblUID.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        lblUID.setForeground(new Color(249, 76, 16));
+        txtpass=new JPasswordField(10);
+        txtUID.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        pnlPass=new JPanel();
+        pnlPass.add(lblpass);
+        pnlPass.add(txtpass);
+        lblconpass=new JLabel("Confirm Password       ");
+        lblconpass.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        lblconpass.setForeground(new Color(249, 76, 16));
+        txtconpass=new JPasswordField(10);
+        txtconpass.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        pnlconPass=new JPanel();
+        pnlconPass.add(lblconpass);
+        pnlconPass.add(txtconpass);
+        lblphone=new JLabel("Phone No.       ");
+        lblphone.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        lblphone.setForeground(new Color(249, 76, 16));
+        txtphone=new JTextField(10);
+        txtphone.setFont(new Font("SansSerif", Font.PLAIN, 20)); 
+        pnlPhone=new JPanel(); 
+        pnlPhone.add(lblphone);
+        pnlPhone.add(txtphone);
+        lblerr=new JLabel("Fill all the details");
+        lblerr.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        lblerr.setForeground(new Color(249, 76, 16));
+        pnlerr=new JPanel();
+        pnlerr.add(lblerr);
+        btnsubmit=new JButton("SIGN UP");
+        btnclear=new JButton("CLEAR");
+        pnlbtn=new JPanel();
+        pnlbtn.add(btnsubmit);
+        pnlbtn.add(btnclear);
+        pnl2.add(pnlhead);
+        pnl2.add(pnlName);
+        pnl2.add(pnlUID);
+        pnl2.add(pnlPass);
+        pnl2.add(pnlconPass);
+        pnl2.add(pnlPhone);
+        pnl2.add(pnlerr);
+        pnl2.add(pnlbtn);
+        MainPnl.add(pnl1);
+        MainPnl.add(pnl2);
+        add(MainPnl);
+        show();
+     }
 
-    }
+    
     public static void main(String[] args){
         new SignUpPage();
     }

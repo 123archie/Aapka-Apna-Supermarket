@@ -155,9 +155,9 @@ public class ProductCategory extends JFrame implements ActionListener{
                         con=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", ""); 
                         stmt=con.createStatement(); 
                         stmt.executeUpdate("Insert into manage_categories values('"+txtcatID.getText()+"','"+txtcatName.getText()+"','"+txtdes.getText()+"')"); 
+                        new classShow();
                         stmt.close();
                         con.close();
-                        showInTable();
                             }catch(Exception ie){
                         System.out.println(ie.getMessage());
                     } 
@@ -170,9 +170,10 @@ public class ProductCategory extends JFrame implements ActionListener{
                 txtdes.setText("");
             }
         }
+        public class classShow{
         public void showInTable(){
-            DefaultTableModel tableModel=(DefaultTableModel)lstcat.getModel();
-            tableModel.setRowCount(0);
+            // DefaultTableModel tableModel=(DefaultTableModel)lstcat.getModel();
+            // tableModel.setRowCount(0);
             Connection con=null;
             Statement stmt=null;
             ResultSet rs=null;
@@ -204,7 +205,7 @@ public class ProductCategory extends JFrame implements ActionListener{
                     }
 
             
-        }
+        }}
     public static void main(String[] args){
         new ProductCategory();
     }

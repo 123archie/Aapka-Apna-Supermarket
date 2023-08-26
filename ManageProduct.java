@@ -1,7 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.JTableHeader;
+
 import java.sql.*;
 import java.sql.DriverManager.*;
 import java.util.ArrayList;
@@ -62,8 +62,6 @@ public class ManageProduct extends JFrame implements ActionListener{
         btnclear.addActionListener(new cleardetails());
         row=new Vector<>();
         heading=new Vector<>();
-        String[] a={"Prod. Category", "Prod. ID", "Prod. Name", "Quantity", "Price", "", "", ""};
-        heading.add(a);
         pnl1=new JPanel();
         pnl2=new JPanel();
         pnlHead=new JPanel();
@@ -97,7 +95,6 @@ public class ManageProduct extends JFrame implements ActionListener{
         add(pnlquanprice);
         add(pnlCategory);
         add(pnlbtn);
-        add(pnl2);
         arr=new ArrayList<>();
         Connection con=null;
         Statement stmt=null;
@@ -120,6 +117,14 @@ public class ManageProduct extends JFrame implements ActionListener{
             System.out.println(ee);
         }
         pnl2.setBorder(BorderFactory.createTitledBorder(null, "Products", TitledBorder.CENTER, TitledBorder.TOP, new Font("SansSerif", Font.PLAIN, 20), new Color(249, 76, 16)));
+        heading.add("Prod. Category");
+        heading.add("Prod. ID");
+        heading.add("Prod. Name");
+        heading.add("Quantity");
+        heading.add("Price");
+        heading.add("");
+        heading.add("");
+        heading.add("");
         Connection conn=null;
         Statement stm=null;
         try{
@@ -139,13 +144,14 @@ public class ManageProduct extends JFrame implements ActionListener{
             rs.close();
             stmt.close();
             con.close();
+            jtable=new JTable(row, heading);
+            jth=jtable.getTableHeader();
         }catch(Exception ee){
             System.out.println(ee);
         }
-        jtable=new JTable(row, heading);
-        jth=jtable.getTableHeader();
         pnl2.add(jtable);
-        show();
+        add(pnl2);
+        setVisible(true);
     }
     class cleardetails implements ActionListener{
         public void actionPerformed(ActionEvent e){
@@ -168,10 +174,10 @@ public class ManageProduct extends JFrame implements ActionListener{
                        Class.forName("com.mysql.cj.jdbc.Driver");
                         con=DriverManager.getConnection("jdbc:mysql://localhost:3306/supermarket", "root", ""); 
                         stmt=con.createStatement(); 
-                        stmt.executeUpdate("Insert into manage_products values('"+combocategory.getSelectedItem()+"', '"+txtprodId.getText()+"','"+txtprodName.getText()+"','"+txtQuantity.getText()+"', '"+txtPrice+"')"); 
+                        stmt.executeUpdate("Insert into manage_products values('"+combocategory.getSelectedItem()+"', '"+txtprodId.getText()+"','"+txtprodName.getText()+"','"+txtQuantity.getText()+"', '"+txtPrice.getText()+"')"); 
                         stmt.close();
                         con.close();
-                        // showInTableProducts();
+                        // new showInTableProducts();
                             }catch(Exception ie){
                         System.out.println(ie.getMessage());
                     } 
@@ -183,4 +189,4 @@ public class ManageProduct extends JFrame implements ActionListener{
     public static void main(String[] args){
         new ManageProduct();
     }}
-// }
+    // public class show 
