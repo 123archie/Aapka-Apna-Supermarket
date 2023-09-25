@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-
 import java.sql.*;
 import java.sql.DriverManager.*;
 import java.util.ArrayList;

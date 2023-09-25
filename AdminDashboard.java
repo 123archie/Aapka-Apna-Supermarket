@@ -2,9 +2,7 @@ import javax.security.auth.login.LoginException;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
-
 import javafx.scene.layout.BorderWidths;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -35,7 +33,7 @@ public class AdminDashboard extends JFrame{
         btnSeller.setBackground(new Color(249, 76, 16));
         btnSeller.setForeground(Color.white);
         btnSeller.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        // btnSeller.addActionListener(new ManageSeller());
+        btnSeller.addActionListener(new ManageSeller());
         btnadmin=new JButton("MANAGE ORDERS");
         btnadmin.setBackground(new Color(249, 76, 16));
         btnadmin.setForeground(Color.white);
