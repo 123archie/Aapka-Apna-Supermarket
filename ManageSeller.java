@@ -1,5 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.JTableHeader;
+
+import javafx.scene.layout.Border;
+
 import java.sql.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +30,6 @@ public class ManageSeller extends JFrame implements ActionListener{
        heading.add("User ID");
        heading.add("Password");
        heading.add("Phone No.");
-       heading.add("");
        Connection conn=null;
        Statement stmt=null;
        ResultSet rs=null;
@@ -54,7 +56,8 @@ public class ManageSeller extends JFrame implements ActionListener{
         System.out.println(ee);
     }
        pnl.add(jtb);
-       add(pnl);
+       setLayout(new BorderLayout());
+       add(pnl, "Center");
        setVisible(true);
     }
     public static void main(String[] args){
