@@ -21,10 +21,10 @@ public class ProductCategory extends JFrame implements ActionListener{
     Vector heading, col, row;
     ResultSet r;
     Container cont;
+    @SuppressWarnings("unchecked")
     public void actionPerformed(ActionEvent ae){
-        // setUndecorated(true);
         cont=getContentPane();
-        setSize(800, 600);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLayout(new GridLayout(5, 1, 40, 40));
         pnl1=new JPanel();
         pnl2=new JPanel();
@@ -53,8 +53,6 @@ public class ProductCategory extends JFrame implements ActionListener{
         lblcatName.setFont(new Font("SansSerif", Font.PLAIN, 20));
         lblcatName.setForeground(new Color(249, 76, 16));
         lbldes=new JLabel("Description:  ");
-        // lblerr=new JLabel("Fill all the details");
-        // lblerr.setVisible(false);
         lbldes.setFont(new Font("SansSerif", Font.PLAIN, 20));
         lbldes.setForeground(new Color(249, 76, 16));
         txtcatID=new JTextField(10);
@@ -123,8 +121,6 @@ public class ProductCategory extends JFrame implements ActionListener{
         pnlcatName.add(txtcatName);
         pnlcatIDName.add(pnlcatID);
         pnlcatIDName.add(pnlcatName);
-        // // pnlerr.add(lblerr);
-        // pnlerr.setVisible(false);
         pnldes.add(lbldes);
         pnldes.add(txtdes);
         pnlbtn.add(btnadd);
@@ -134,7 +130,6 @@ public class ProductCategory extends JFrame implements ActionListener{
         add(pnlHead);
         add(pnlcatIDName);
         add(pnldes);
-        // add(lblerr);
         add(pnlbtn);
         add(pnl2);
         setVisible(true);
@@ -147,7 +142,6 @@ public class ProductCategory extends JFrame implements ActionListener{
                     txtcatName.setText("");
                     txtdes.setText("");
                 }else{
-                    //    lblerr.setVisible(false);
                        Connection con=null;
                        Statement stmt=null;
                        try{
@@ -172,8 +166,6 @@ public class ProductCategory extends JFrame implements ActionListener{
         }
         public class classShow{
         public void showInTable(){
-            // DefaultTableModel tableModel=(DefaultTableModel)lstcat.getModel();
-            // tableModel.setRowCount(0);
             Connection con=null;
             Statement stmt=null;
             ResultSet rs=null;
