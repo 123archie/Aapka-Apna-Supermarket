@@ -1,14 +1,12 @@
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.JTableHeader;
 import java.sql.*;
-import java.sql.DriverManager.*;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.table.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.border.TitledBorder;
 public class ProductCategory extends JFrame implements ActionListener{
     JPanel pnl1, pnl2, pnlHead, pnlcatIDName, pnldes, pnlerr, pnlbtn, pnlcatID, pnlcatName;
     JLabel lblhead, lblcatID, lblcatName, lbldes, lblerr;
@@ -96,22 +94,18 @@ public class ProductCategory extends JFrame implements ActionListener{
                             col.add(rs.getString("Category_ID"));
                             col.add(rs.getString("Category_Name"));
                             col.add(rs.getString("Description"));
-                            btnedit.setVisible(true);
-                            btndelete.setVisible(true);
-                            btnupdate.setVisible(true);
-                            col.add(btnedit);
-                            col.add(btndelete);
-                            col.add(btnupdate);
+                            // btnedit.setVisible(true);
+                            // btndelete.setVisible(true);
+                            // btnupdate.setVisible(true);
                             row.add(col);
                         }
-                            lstcat=new JTable(row, heading);
-                            jth=lstcat.getTableHeader(); 
                         rs.close();
                         stmt.close();
                         con.close();
                             }catch(Exception ie){
                         System.out.println(ie.getMessage());
                     }
+        
         lstcat=new JTable(row, heading);
         jth=lstcat.getTableHeader();
         pnlHead.add(lblhead);
@@ -179,12 +173,12 @@ public class ProductCategory extends JFrame implements ActionListener{
                             col.add(rs.getString("Category_ID"));
                             col.add(rs.getString("Category_Name"));
                             col.add(rs.getString("Description"));
-                            btnedit.setVisible(true);
-                            btndelete.setVisible(true);
-                            btnupdate.setVisible(true);
-                            col.add(btnedit);
-                            col.add(btndelete);
-                            col.add(btnupdate);
+                            // btnedit.setVisible(true);
+                            // btndelete.setVisible(true);
+                            // btnupdate.setVisible(true);
+                            // col.add(btnedit);
+                            // col.add(btndelete);
+                            // col.add(btnupdate);
                             row.add(col);
                         }
                             lstcat=new JTable(row, heading);

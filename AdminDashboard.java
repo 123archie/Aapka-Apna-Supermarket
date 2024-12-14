@@ -23,7 +23,7 @@ public class AdminDashboard extends JFrame{
         btnprodCat.setBackground(new Color(249, 76, 16));
         btnprodCat.setForeground(Color.white);
         btnprodCat.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        btnprodCat.addActionListener(new ProductCategory());
+        btnprodCat.addActionListener(ProductCategory());
         btnprod=new JButton("MANAGE PRODUCTS");
         btnprod.setBackground(new Color(249, 76, 16));
         btnprod.setForeground(Color.white);
